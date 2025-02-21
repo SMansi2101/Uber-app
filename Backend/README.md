@@ -16,17 +16,6 @@ POST
 - **email**: string (must be a valid email, minimum 5 characters) - Required  
 - **password**: string (minimum 6 characters) - Required  
 
-#### Example Request Body
-```json
-{
-    "fullname": {
-        "firstname": "John",
-        "lastname": "Doe"
-    },
-    "email": "johndoe@example.com",
-    "password": "securePassword123"
-}
-```
 
 ### Responses
 -**user(object)**
@@ -44,7 +33,6 @@ POST
                 "lastname": "Doe"
             },
             "email": "johndoe@example.com",
-            // other user fields...
         }
     }
     ```
