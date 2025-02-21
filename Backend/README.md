@@ -1,68 +1,133 @@
 # UBER Backend Documentation
 
-### Description
-This endpoint is used to register a new user. It validates the user's input and creates a new account if all required fields are provided correctly. Upon successful registration, it returns a token and the user details.
+## Description
+This backend API handles user authentication, including registration, login, profile retrieval, and logout.
 
-### Request Method
-POST
+## API Endpoints
 
-### URL
-`/users/register`
+### 1. Register a New User
+**Endpoint:** `POST /users/register`
 
-### Required Data
+**Description:** Registers a new user by validating input and creating an account.
 
-- **fullname.firstname**: string (minimum 3 characters) - Required  
-- **fullname.lastname**: string (minimum 3 characters) - Optional  
-- **email**: string (must be a valid email, minimum 5 characters) - Required  
-- **password**: string (minimum 6 characters) - Required  
+**Request Body:**
+```json
+{
+    "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+    },
+    "email": "johndoe@example.com",
+    "password": "securepassword"
+}
+```
 
+**Response:**
+```json
+{
+    "token": "jwt_token_here",
+    "user": {
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "johndoe@example.com"
+    }
+}
+```
 
-### Responses
--**user(object)**
--**Token(string)**:JWT Token
+**Validation Rules:**
+- `fullname.firstname` (required, min 3 characters)
+- `fullname.lastname` (optional, min 3 characters)
+- `email` (required, valid email format)
+- `password` (required, min 6 characters)
 
-#### Success (201 Created)
-- **Status Code**: 201  
-- **Response Body**:
-    ```json
-    {
-        "token": "jwt_token_here",
-        "user": {
-            "fullname": {
-                "firstname": "John",
-                "lastname": "Doe"
-            },
-            "email": "johndoe@example.com",
+**Error Response (400 - Bad Request):**
+```json
+{
+    "errors": [
+        {
+            "msg": "Invalid Email",
+            "param": "email",
+            "location": "body"
+        },
+        {
+            "msg": "First name at least 3 characters long",
+            "param": "fullname.firstname",
+            "location": "body"
+        },
+        {
+            "msg": "Password must be at least 6 characters long",
+            "param": "password",
+            "location": "body"
         }
-    }
-    ```
+    ]
+}
+```
 
-#### Error (400 Bad Request)
-- **Status Code**: 400  
-- **Response Body**:
-    ```json
-    {
-        "errors": [
-            {
-                "msg": "Invalid Email",
-                "param": "email",
-                "location": "body"
-            },
-            {
-                "msg": "First name at least 3 characters Long",
-                "param": "fullname.firstname",
-                "location": "body"
-            },
-            {
-                "msg": "Password must be at least 6 characters long",
-                "param": "password",
-                "location": "body"
-            }
-        ]
+---
+
+### 2. User Login
+**Endpoint:** `POST /users/login`
+
+**Description:** Authenticates a user and returns a JWT token.
+
+**Request Body:**
+```json
+{
+    "email": "johndoe@example.com",
+    "password": "securepassword"
+}
+```
+
+**Response:**
+```json
+{
+    "token": "jwt_token_here",
+    "user": {
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "johndoe@example.com"
     }
-    ```
+}
+```
+
+**Error Response (400 - Bad Request):**
+```json
+{
+    "message": "Invalid email or password"
+}
+```
+
+---
+
+### 3. Get User Profile
+**Endpoint:** `GET /api/users/profile`
+
+**Description:** Retrieves the authenticated user's profile information.
+
+### HTTP method
+`GET`
+
+**Headers:**
+- `Authorization: Bearer <JWT_TOKEN>`
+
+
+### 4. Logout User
+**Endpoint:** `POST /api/users/logout`
+
+**Description:** Logs out the currently authenticated user and blacklist the token provided in cookie or headers.
+ 
+### HTTP method
+`GET`
+
+### Authentication
+Requires a valid JWT token in the suthorization token or cookie:
 
 ## Additional Notes
-- Input validation is performed using `express-validator`.
-- The user's password is hashed before being stored.
-- A JWT token is generated and returned upon successful registration.
+- Input validation is handled using `express-validator`.
+- Passwords are securely hashed before being stored.
+- JWT tokens are used for authentication.
+- Ensure the `Authorization` header is correctly set for protected routes.
