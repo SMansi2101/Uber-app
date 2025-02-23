@@ -124,10 +124,66 @@ This backend API handles user authentication, including registration, login, pro
 `GET`
 
 ### Authentication
-Requires a valid JWT token in the suthorization token or cookie:
+Requires a valid JWT token in the authorization token or cookie:
+
+### 5. Register a Captain
+**Endpoint:** `POST /api/captains/register`
+
+**Description:** Registers a new captain with vehicle details.
+
+**Request Body:**
+```json
+{
+    "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+    },
+    "email": "captain@example.com",
+    "password": "securepassword",
+    "vehicle": {
+        "colour": "red",
+        "plate": "MH 12 NT 5312",
+        "capacity": 3,
+        "vehicleType": "car"
+    }
+}
+```
+
+**Response:**
+```json
+{
+    "token": "jwt_token_here",
+    "captain": {
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "captain@example.com",
+        "status": "inactive",
+        "vehicle": {
+            "colour": "red",
+            "plate": "MH 12 NT 8783",
+            "capacity": 3,
+            "vehicleType": "car"
+        }
+    }
+}
+```
+
+**Validation Rules:**
+- `fullname.firstname` (required, min 3 characters)
+- `fullname.lastname` (required, min 3 characters)
+- `email` (required, valid email format)
+- `password` (required, min 6 characters)
+- `vehicle.colour` (required, min 3 characters)
+- `vehicle.plate` (required, min 3 characters)
+- `vehicle.capacity` (required, min 1)
+- `vehicle.vehicleType` (required, one of: car, motorcycle, auto)
+
 
 ## Additional Notes
 - Input validation is handled using `express-validator`.
 - Passwords are securely hashed before being stored.
 - JWT tokens are used for authentication.
 - Ensure the `Authorization` header is correctly set for protected routes.
+
