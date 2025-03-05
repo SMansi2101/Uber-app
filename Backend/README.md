@@ -170,6 +170,83 @@ Requires a valid JWT token in the authorization token or cookie:
 }
 ```
 
+**Endpoint:** `POST /api/captains/login`
+
+**Description:** Authenticates a Captain using email and password. Returns a JWT token on successful login.
+
+**Request Body:**
+```json
+{
+    "email": "captain@example.com",
+    "password": "securepassword"
+}
+```
+
+**Response:**
+```json
+{
+    "token": "jwt_token_here",
+    "captain": {
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "captain@example.com",
+        "status": "inactive",
+        "vehicle": {
+            "colour": "red",
+            "plate": "MH 12 NT 5312",
+            "capacity": 3,
+            "vehicleType": "car"
+        }
+    }
+}
+```
+**Endpoint:** `GET /api/captains/profile`
+
+**Description:** Retrieves the profile information of the authenticated Captain.
+ 
+### HTTP method
+`GET`
+
+**Headers:**
+- `Authorization: Bearer jwt_token_here`
+
+**Response:**
+```json
+{
+    "captain": {
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "captain@example.com",
+        "status": "inactive",
+        "vehicle": {
+            "colour": "red",
+            "plate": "MH 12 NT 5312",
+            "capacity": 3,
+            "vehicleType": "car"
+        }
+    }
+}
+
+```
+**Error Response (401 - Unauthorized):**
+```json
+{
+    "message": "Unauthorized access"
+}
+```
+
+**Endpoint:** `GET /api/captains/logout`
+
+**Description:** Logs out the authenticated Captain by clearing the authentication token (handled on client-side by removing token).
+ 
+### HTTP method
+`GET`
+
+
 **Validation Rules:**
 - `fullname.firstname` (required, min 3 characters)
 - `fullname.lastname` (required, min 3 characters)

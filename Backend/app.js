@@ -1,6 +1,6 @@
+const express = require('express');
 const dotenv = require('dotenv');
 dotenv.config();
-const express = require('express');
 const cors = require('cors');
 const app = express();
 const cookieParser = require('cookie-parser');
@@ -20,5 +20,5 @@ app.get('/',(req,res) => {
 });
 
 app.use('/users', userRoutes);
-app.use('/captain',captainRoutes);
+app.use('/captains',captainRoutes);
 module.exports = app;
