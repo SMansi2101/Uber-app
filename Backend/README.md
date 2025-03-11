@@ -169,7 +169,7 @@ Requires a valid JWT token in the authorization token or cookie:
     }
 }
 ```
-
+### 5. Login a Captain
 **Endpoint:** `POST /api/captains/login`
 
 **Description:** Authenticates a Captain using email and password. Returns a JWT token on successful login.
@@ -202,6 +202,8 @@ Requires a valid JWT token in the authorization token or cookie:
     }
 }
 ```
+
+### 5.  Get profile of captain
 **Endpoint:** `GET /api/captains/profile`
 
 **Description:** Retrieves the profile information of the authenticated Captain.
@@ -239,6 +241,7 @@ Requires a valid JWT token in the authorization token or cookie:
 }
 ```
 
+### 5. Logout a Captain
 **Endpoint:** `GET /api/captains/logout`
 
 **Description:** Logs out the authenticated Captain by clearing the authentication token (handled on client-side by removing token).
